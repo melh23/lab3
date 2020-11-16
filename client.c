@@ -8,12 +8,14 @@
 #include <unistd.h>
 #include <errno.h>
 #include <arpa/inet.h>
+#include <netdb.h>
  
 int main(void)
 {
   int sockfd = 0,n = 0, hostname = 0;
   char recvBuff[1024];
   struct sockaddr_in serv_addr;
+  struct hostent* host;
  
   memset(recvBuff, '0' ,sizeof(recvBuff));
   if((sockfd = socket(AF_INET, SOCK_STREAM, 0))< 0)
@@ -22,10 +24,11 @@ int main(void)
       return 1;
     }
  
+  host = gethostbyname("server.melanie.cs164");
+
   serv_addr.sin_family = AF_INET;
   serv_addr.sin_port = htons(5000);
-	//hostname = gethostbyname("server.melanie.cs164");
-  serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+  serv_addr.sin_addr.s_addr = *(long*)host->h_addr_list[0];
  
   if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))<0)
     {

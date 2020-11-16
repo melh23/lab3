@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
+#include <netdb.h>
  
 int main(void)
 {
@@ -26,7 +27,7 @@ int main(void)
   serv_addr.sin_family = AF_INET;    
 	//hostname = gethostbyname("server.melanie.cs164");
   serv_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-  serv_addr.sin_port = htons(5000);    
+  serv_addr.sin_port = htons(5000);
  
   bind(listenfd, (struct sockaddr*)&serv_addr,sizeof(serv_addr));
   
